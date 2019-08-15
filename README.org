@@ -1,0 +1,19 @@
+* vdf-mode.el
+
+Major mode for editing Valve VDF (KeyValues) files. For a definition of this format, see [[https://developer.valvesoftware.com/wiki/KeyValues][here]].
+
+The mode features indentation, highlighting and parentheses matching.
+
+Created while developing [[https://reaktron.com/][reaktron]].
+
+** Install
+
+Since the package is not in MELPA yet, you have to manually install it:
+
+- Clone this repository somehere, say =$HOME=
+- Open your emacs configuration file
+- Append the following
+  #+begin_src lisp
+(add-to-list 'load-path "~/vdf-mode")
+(require 'vdf-mode)
+  #+end_src
