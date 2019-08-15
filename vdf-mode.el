@@ -71,5 +71,8 @@
   (setq-local comment-end "")
   (set (make-local-variable 'indent-line-function) 'vdf-indent-line))
 
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.vdf\\'" . vdf-mode))
+
 (provide 'vdf-mode)
 ;;; vdf-mode.el ends here
