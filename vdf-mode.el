@@ -61,7 +61,7 @@
         (end-of-line)
         (let* ((closecount (vdf-count "}" (point-min) (point-max)))
               (depth (- opencount closecount)))
-          (indent-line-to (2*depth)))))))
+          (indent-line-to (* depth 2)))))))
   
 (define-derived-mode vdf-mode fundamental-mode "vdf"
   "major mode for editing Valve VDF files"
