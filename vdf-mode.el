@@ -4,7 +4,8 @@
 
 ;; Author: Philipp Middendorf
 ;; URL: https://github.com/plapadoo/vdf-mode
-;; Version: 1.0
+;; Version: 1.2
+;; Package-Requires: ((emacs "24.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -17,7 +18,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -39,20 +40,18 @@
 
 (setq vdf-highlights
       '(("#include\\|#base" . font-lock-preprocessor-face)
-        ("\"\\([^\"]+?\\)\"" . (1 font-lock-constant-face))
-        ))
+        ("\"\\([^\"]+?\\)\"" . (1 font-lock-constant-face))))
 
 
-(defun vdf-count (needle posBegin posEnd)
-  "Count `NEEDLE' between `POSBEGIN' and `POSEND'."
+(defun vdf-count (needle pos-begin pos-end)
+  "Count `NEEDLE' between `POS-BEGIN' and `POS-END'."
   (save-excursion
     (let (opencount)
       (setq opencount 0)
-      (while (and (> (point) posBegin)
-                  (search-backward needle posBegin t))
+      (while (and (> (point) pos-begin)
+                  (search-backward needle pos-begin t))
         (setq opencount (1+ opencount)))
-      opencount))
-  )
+      opencount)))
 
 (defun vdf-indent-line ()
   "Indent current line as VDF code."
