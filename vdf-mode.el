@@ -21,6 +21,8 @@
 
 ;;; Commentary:
 
+;; Add mode for Valve's VDF file format.
+
 ;;; Code:
 
 (defvar vdf-mode-syntax-table nil "Syntax table for `vdf-mode'.")
