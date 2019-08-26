@@ -25,26 +25,23 @@
 ;; Add mode for Valve's VDF file format.
 
 ;;; Code:
+;;; -*- lexical-binding: t; -*-
 
-(defvar vdf-mode-syntax-table nil "Syntax table for `vdf-mode'.")
+(defvar vdf-mode-syntax-table
+  (let ((syntax-table (make-syntax-table)))
+    (modify-syntax-entry ?\/ ". 12b" syntax-table)
+    (modify-syntax-entry ?\n "> b" syntax-table)
+    (modify-syntax-entry ?{ "(}" syntax-table)
+    (modify-syntax-entry ?} "){" syntax-table)
+    syntax-table) "Syntax table for `vdf-mode'.")
 
-(setq vdf-mode-syntax-table
-      (let ( (synTable (make-syntax-table)))
-        (modify-syntax-entry ?\/ ". 12b" synTable)
-        (modify-syntax-entry ?\n "> b" synTable)
-        (modify-syntax-entry ?{ "(}" synTable)
-        (modify-syntax-entry ?} "){" synTable)
-        synTable))
+(defvar vdf-highlights
+  '(("#include\\|#base" . font-lock-preprocessor-face)
+    ("\"\\([^\"]+?\\)\"" . (1 font-lock-constant-face)))
+  "Font lock table for `vdf-mode'.")
 
-(defvar vdf-highlights "Font lock table for `vdf-mode'.")
-
-(setq vdf-highlights
-      '(("#include\\|#base" . font-lock-preprocessor-face)
-        ("\"\\([^\"]+?\\)\"" . (1 font-lock-constant-face))))
-
-
-(defun vdf-count (needle pos-begin pos-end)
-  "Count `NEEDLE' between `POS-BEGIN' and `POS-END'."
+(defun vdf-count-backwards (needle pos-begin)
+  "Count `NEEDLE' from `POS-BEGIN' backwards."
   (save-excursion
     (let (opencount)
       (setq opencount 0)
@@ -57,14 +54,14 @@
   "Indent current line as VDF code."
   (save-excursion
     (beginning-of-line)
-    (let ((opencount (vdf-count "{" (point-min) (point-max))))
+    (let ((opencount (vdf-count-backwards "{" (point-min))))
       (save-excursion
         (end-of-line)
-        (let* ((closecount (vdf-count "}" (point-min) (point-max)))
+        (let* ((closecount (vdf-count-backwards "}" (point-min)))
               (depth (- opencount closecount)))
           (indent-line-to (* depth 2)))))))
   
-(define-derived-mode vdf-mode fundamental-mode "vdf"
+(define-derived-mode vdf-mode prog-mode "vdf"
   "major mode for editing Valve VDF files"
   (set (make-local-variable 'font-lock-defaults) '(vdf-highlights))
   (set-syntax-table vdf-mode-syntax-table)
