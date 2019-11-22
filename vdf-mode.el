@@ -40,11 +40,12 @@
     ("\"\\([^\"]+?\\)\"" . (1 font-lock-constant-face)))
   "Font lock table for `vdf-mode'.")
 
-(defun vdf-count-backwards (needle pos-begin)
-  "Count `NEEDLE' from `POS-BEGIN' backwards."
+(defun vdf-count-backwards (needle pos-begin pos-end)
+  "Count `NEEDLE' from `POS-BEGIN' to `POS-END' backwards."
   (save-excursion
     (let (opencount)
       (setq opencount 0)
+      (goto-char pos-end)
       (while (and (> (point) pos-begin)
                   (search-backward needle pos-begin t))
         (setq opencount (1+ opencount)))
@@ -52,15 +53,13 @@
 
 (defun vdf-indent-line ()
   "Indent current line as VDF code."
-  (save-excursion
-    (beginning-of-line)
-    (let ((opencount (vdf-count-backwards "{" (point-min))))
-      (save-excursion
-        (end-of-line)
-        (let* ((closecount (vdf-count-backwards "}" (point-min)))
-              (depth (- opencount closecount)))
-          (indent-line-to (* depth 2)))))))
-  
+  (let* ((open-count (vdf-count-backwards "{" (point-min) (line-beginning-position)))
+         (close-count  (vdf-count-backwards "}" (point-min) (+ (point) 1)))
+         (depth (- open-count close-count)))
+  (if (<= (current-column) (current-indentation))
+      (indent-line-to depth)
+    (save-excursion (indent-line-to depth)))))
+
 (define-derived-mode vdf-mode prog-mode "vdf"
   "major mode for editing Valve VDF files"
   (set (make-local-variable 'font-lock-defaults) '(vdf-highlights))
