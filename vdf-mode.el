@@ -60,6 +60,7 @@
       (indent-line-to depth)
     (save-excursion (indent-line-to depth)))))
 
+;;;###autoload
 (define-derived-mode vdf-mode prog-mode "vdf"
   "major mode for editing Valve VDF files"
   (set (make-local-variable 'font-lock-defaults) '(vdf-highlights))
