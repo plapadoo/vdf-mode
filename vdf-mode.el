@@ -33,6 +33,7 @@
     (modify-syntax-entry ?\n "> b" syntax-table)
     (modify-syntax-entry ?{ "(}" syntax-table)
     (modify-syntax-entry ?} "){" syntax-table)
+    (modify-syntax-entry ?\\ "." syntax-table)
     syntax-table) "Syntax table for `vdf-mode'.")
 
 (defvar vdf-highlights
