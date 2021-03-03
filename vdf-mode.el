@@ -1,4 +1,4 @@
-;;; vdf-mode.el --- Major mode for editing Valve VDF files.
+;;; vdf-mode.el --- Major mode for editing Valve VDF files.  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019 plapadoo UG
 
@@ -25,7 +25,6 @@
 ;; Add mode for Valve's VDF file format.
 
 ;;; Code:
-;;; -*- lexical-binding: t; -*-
 
 (defvar vdf-mode-syntax-table
   (let ((syntax-table (make-syntax-table)))
