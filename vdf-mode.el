@@ -66,6 +66,7 @@
   (set (make-local-variable 'font-lock-defaults) '(vdf-highlights))
   (set-syntax-table vdf-mode-syntax-table)
   (setq-local comment-start "// ")
+  (setq-local comment-start-skip "// *")
   (setq-local comment-end "")
   (set (make-local-variable 'indent-line-function) 'vdf-indent-line))
 
