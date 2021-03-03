@@ -26,6 +26,16 @@
 
 ;;; Code:
 
+(defgroup vdf
+  nil
+  "Valve VDF mode for Emacs."
+  :group 'languages
+  :prefix "vdf-")
+
+(defcustom vdf-indent-offset 1
+  "Default indentation offset for VDF."
+  :type 'integer)
+
 (defvar vdf-mode-syntax-table
   (let ((syntax-table (make-syntax-table)))
     (modify-syntax-entry ?\/ ". 12b" syntax-table)
@@ -55,7 +65,7 @@
   "Indent current line as VDF code."
   (let* ((open-count (vdf-count-backwards "{" (point-min) (line-beginning-position)))
          (close-count  (vdf-count-backwards "}" (point-min) (+ (point) 1)))
-         (depth (- open-count close-count)))
+         (depth (* (- open-count close-count) vdf-indent-offset)))
   (if (<= (current-column) (current-indentation))
       (indent-line-to depth)
     (save-excursion (indent-line-to depth)))))
